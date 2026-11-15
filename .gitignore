@@ -1,0 +1,22 @@
+# Local source materials, unused assets and QA screenshots
+/local-archive/
+
+# Dependencies and generated output
+/node_modules/
+/dist/
+*.tsbuildinfo
+.vite/
+coverage/
+
+# Local editor, hosting and OS metadata
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+.openai/
+*.log
+
+# Local environment files (keep a safe example if one is added)
+.env
+.env.*
+!.env.example

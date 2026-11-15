@@ -1,0 +1,17 @@
+.header .avatar-easter-egg{appearance:none;background:transparent;cursor:pointer;margin:0;color:inherit}
+.avatar-easter-egg:focus-visible{outline:2px solid #fff;outline-offset:4px}
+.avatar-easter-egg .header-portrait{position:relative}
+.avatar-easter-egg .header-portrait img{object-fit:cover;object-position:center;transform:none}
+.avatar-easter-egg canvas{position:absolute;inset:0;width:100%;height:100%;border-radius:50%;pointer-events:none}
+.avatar-easter-overlay{position:relative;z-index:10000}
+.avatar-easter-tip{position:fixed;padding:6px 10px;border:.5px solid #ffffff66;border-radius:12px;background:#1b191be6;color:white;font:400 12px/18px Manrope,sans-serif;white-space:nowrap;pointer-events:none;opacity:0;transform:translateX(-4px);transition:opacity 175ms ease,transform 175ms ease}
+.avatar-easter-tip.is-visible{opacity:1;transform:translateX(0)}
+.avatar-fact{position:fixed;width:300px;max-width:calc(100vw - 32px);padding:24px;border:1px solid #ffffff40;border-radius:20px;background:#1b191bf2;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);color:white;box-shadow:0 12px 32px #0003;animation:avatar-fact-enter 200ms ease both}
+.avatar-fact h2{font:500 16px/24px Unbounded,sans-serif;margin:0 0 16px}
+.avatar-fact p{font:400 14px/22px Manrope,sans-serif;margin:0}
+.avatar-fact code{font:inherit;white-space:nowrap}
+.avatar-fact .avatar-fact-aside{font-size:12px;line-height:18px;color:#ffffff99;margin-top:16px}
+@keyframes avatar-fact-enter{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.avatar-easter-tip{transition:none;transform:none}.avatar-fact{animation:none}}
+@media(hover:none){.avatar-easter-tip{display:none}}
+.avatar-fact{overflow:hidden;clip-path:inset(0 round 20px)}
