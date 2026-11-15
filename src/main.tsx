@@ -25,7 +25,7 @@ function App() {
   useLayoutEffect(() => {
     const update = () => {
       const { innerWidth: width, innerHeight: height } = window;
-      setScale(width >= 760 ? 1 : Math.min(width / 390, height / 780));
+      setScale(1);
       if (stage.current && width >= 760) {
         const snap = (value: number) => Math.floor(value / 8) * 8;
         const compact = height <= 700;

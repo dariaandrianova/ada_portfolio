@@ -11,9 +11,10 @@ export function AvatarEasterEgg() {
   const [hovered, setHovered] = useState(false);
   const [focused, setFocused] = useState(false);
   const [open, setOpen] = useState(false);
+  const [mobileReal, setMobileReal] = useState(false);
   const [position, setPosition] = useState({ left: 0, top: 0, tipLeft: 0, tipTop: 0 });
   const animation = useRef<{ target: (real: boolean, instant?: boolean) => void } | null>(null);
-  const revealed = open || hovered || focused;
+  const revealed = open || hovered || focused || mobileReal;
   const immediate = useRef(false);
   useRussianTypography(overlay);
 
@@ -22,7 +23,6 @@ export function AvatarEasterEgg() {
     const context = element.getContext('2d');
     if (!context) return;
     const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-    const fine = matchMedia('(hover:hover) and (pointer:fine)');
     const image = new Image();image.src = './assets/real.jpg';
     let disposed = false, loaded = false, frame = 0, progress = 0, goal = 0, last = 0;
     const size = element.clientWidth;
@@ -57,16 +57,30 @@ export function AvatarEasterEgg() {
     };
     const target = (real: boolean, instant = false) => {
       goal = real ? 1 : 0;
-      if (reduced.matches || !fine.matches || instant) {
+      if (reduced.matches || instant) {
         cancelAnimationFrame(frame);frame = 0;progress = goal;paint();
       } else if (!frame && progress !== goal) { last = performance.now();frame = requestAnimationFrame(tick); }
     };
     animation.current = { target };
     image.decode().then(() => { if (!disposed) { loaded = true;paint(); } }).catch(() => { /* Original avatar remains visible if the photo fails. */ });
     const motionChange = () => target(goal === 1);
-    reduced.addEventListener('change',motionChange);fine.addEventListener('change',motionChange);
-    return () => { disposed = true;cancelAnimationFrame(frame);animation.current = null;reduced.removeEventListener('change',motionChange);fine.removeEventListener('change',motionChange); };
+    reduced.addEventListener('change',motionChange);
+    return () => { disposed = true;cancelAnimationFrame(frame);animation.current = null;reduced.removeEventListener('change',motionChange); };
   }, []);
+
+  useEffect(() => {
+    const mobile = matchMedia('(max-width:759px)');
+    const reduced = matchMedia('(prefers-reduced-motion:reduce)');
+    let timer: ReturnType<typeof setInterval> | undefined;
+    const restart = () => {
+      clearInterval(timer);setMobileReal(false);
+      if (mobile.matches && !reduced.matches && !open && !document.hidden) {
+        timer = setInterval(() => setMobileReal(value => !value), 3000);
+      }
+    };
+    restart();mobile.addEventListener('change',restart);reduced.addEventListener('change',restart);document.addEventListener('visibilitychange',restart);
+    return () => { clearInterval(timer);mobile.removeEventListener('change',restart);reduced.removeEventListener('change',restart);document.removeEventListener('visibilitychange',restart); };
+  }, [open]);
 
   useEffect(() => { animation.current?.target(revealed,immediate.current);immediate.current = false; }, [revealed]);
   useLayoutEffect(() => {

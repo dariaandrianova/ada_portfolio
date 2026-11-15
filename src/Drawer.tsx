@@ -1,4 +1,4 @@
-import { useCallback, useLayoutEffect, useRef, type ReactNode } from 'react';
+import { useCallback, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import type { DrawerContent } from './drawerContent';
 import { Blocks, ExternalButton, Tag, TextSection } from './content';
 import { useRussianTypography } from './typography';
@@ -7,6 +7,7 @@ import { Gallery } from './Gallery';
 
 export function Drawer({ content, opener, onClosed, children }: { content: DrawerContent; opener: HTMLElement | null; onClosed: () => void; children?: ReactNode }) {
   const dialog = useRef<HTMLDialogElement>(null);
+  const [scrolled, setScrolled] = useState(false);
   const closeButton = useRef<HTMLButtonElement>(null);
   const panel = useRef<HTMLDivElement>(null);
   const shade = useRef<HTMLDivElement>(null);
@@ -58,7 +59,7 @@ export function Drawer({ content, opener, onClosed, children }: { content: Drawe
       opener?.focus({ preventScroll: true });
     };
   }, [opener]);
-  return <dialog ref={dialog} className={`drawer${content.variant === 'case' ? ' drawer--case' : ''}`} role="dialog" aria-modal="true" aria-labelledby={`drawer-title-${content.id}`}
+  return <dialog ref={dialog} className={`drawer${content.variant === 'case' ? ' drawer--case' : ''}`} role="dialog" aria-modal="true" aria-label={content.title}
     onCancel={event => { event.preventDefault();close(); }}
     onKeyDown={event => {
       if (event.key !== 'Tab') return;
@@ -70,10 +71,10 @@ export function Drawer({ content, opener, onClosed, children }: { content: Drawe
     onClick={event => { if (event.target === event.currentTarget) close(); }}>
     <div ref={shade} className="drawer-shade" aria-hidden="true" onClick={close} />
     <div ref={panel} className="drawer-panel">
-      <div className="drawer-toolbar"><button ref={closeButton} className="drawer-close" type="button" aria-label="Закрыть шторку" onClick={close}><span aria-hidden="true" /></button></div>
-      <div className="drawer-scroll" tabIndex={0} aria-label="Содержимое шторки">
+      <div className={`drawer-toolbar${scrolled ? ' is-scrolled' : ''}`}><h1 className="drawer-mobile-title">{content.title}</h1><button ref={closeButton} className="drawer-close" type="button" aria-label="Закрыть шторку" onClick={close}><span aria-hidden="true" /></button></div>
+      <div className="drawer-scroll" onScroll={event => setScrolled(event.currentTarget.scrollTop > 4)} tabIndex={0} aria-label="Содержимое шторки">
         <header className="drawer-heading">
-          <h1 id={`drawer-title-${content.id}`}>{content.title}</h1>
+          <h1 className="drawer-desktop-title" id={`drawer-title-${content.id}`}>{content.title}</h1>
           {content.period && <p className="drawer-period">{content.period}</p>}
           {content.role && <p className="drawer-role">{content.role}</p>}
           {content.subtitle && <p className="drawer-subtitle">{content.subtitle}</p>}

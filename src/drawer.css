@@ -34,3 +34,16 @@ button.card:hover{background:rgb(255 255 255 / 2%)}button.card:focus-visible{out
 .drawer-inline-link{text-decoration:underline;text-decoration-color:#ffffff66;text-underline-offset:3px;transition:color .2s,text-decoration-color .2s}.drawer-inline-link:hover{color:#32ff27;text-decoration-color:currentColor}.drawer-inline-link .arrow{width:13px;height:13px;margin-left:4px;vertical-align:baseline}.drawer strong{font-weight:650;color:#fff}
 
 .drawer-duties{border-top:1px solid #ffffff20;margin-top:32px;padding-top:28px}.drawer-duties h2{font-size:18px;line-height:1.4;margin-bottom:16px}.drawer ul.drawer-responsibilities{list-style:none;margin:0;padding:0}.drawer-responsibilities li{display:inline;margin:0;font-size:15px;line-height:1.9}.drawer-responsibilities li+li{margin:0}.drawer-responsibilities li>span:first-child{white-space:nowrap}.responsibility-separator{color:#797577;margin:0 8px}
+.drawer-mobile-title{display:none}
+@media(max-width:759px){
+ .drawer-panel{height:94dvh;max-height:calc(100dvh - env(safe-area-inset-top) - 8px)}
+ .drawer-toolbar{position:relative;z-index:2;height:auto;min-height:72px;padding:16px 20px;gap:16px;align-items:center;justify-content:space-between;background:#191618;border-radius:28px 28px 0 0;transition:box-shadow 200ms ease}
+ .drawer-toolbar.is-scrolled{box-shadow:0 6px 16px #00000038}
+ .drawer h1.drawer-mobile-title{display:block;min-width:0;font-size:18px;line-height:24px;text-align:left;text-wrap:wrap}
+ .drawer-toolbar .drawer-close{flex:none;align-self:flex-start;margin-left:auto}
+ .drawer-desktop-title{display:none}
+ .drawer-scroll{padding-top:8px}
+ .drawer-heading:empty{display:none}
+ .drawer :focus,.drawer :focus-visible{outline:none}
+ .drawer-close:hover{color:#fff;border-color:#ffffff33;background:transparent}
+}
